@@ -174,42 +174,131 @@ void ISS::exec_step() {
 	}
 
 	switch (op) {
+		case Opcode::XORI:
+			exec_xori(last_pc, &instr);
+			break;
+		case Opcode::XOR:
+			exec_xor(last_pc, &instr);
+			break;
+		case Opcode::SW:
+			exec_sw(last_pc, &instr);
+			break;
+		case Opcode::SUB:
+			exec_sub(last_pc, &instr);
+			break;
+		case Opcode::SRLI:
+			exec_srli(last_pc, &instr);
+			break;
+		case Opcode::SRL:
+			exec_srl(last_pc, &instr);
+			break;
+		case Opcode::SRAI:
+			exec_srai(last_pc, &instr);
+			break;
+		case Opcode::SRA:
+			exec_sra(last_pc, &instr);
+			break;
+		case Opcode::SLTU:
+			exec_sltu(last_pc, &instr);
+			break;
+		case Opcode::SLTIU:
+			exec_sltiu(last_pc, &instr);
+			break;
+		case Opcode::SLTI:
+			exec_slti(last_pc, &instr);
+			break;
+		case Opcode::SLT:
+			exec_slt(last_pc, &instr);
+			break;
+		case Opcode::SLLI:
+			exec_slli(last_pc, &instr);
+			break;
+		case Opcode::SLL:
+			exec_sll(last_pc, &instr);
+			break;
+		case Opcode::SH:
+			exec_sh(last_pc, &instr);
+			break;
+		case Opcode::SB:
+			exec_sb(last_pc, &instr);
+			break;
+		case Opcode::ORI:
+			exec_ori(last_pc, &instr);
+			break;
+		case Opcode::OR:
+			exec_or(last_pc, &instr);
+			break;
+		case Opcode::LW:
+			exec_lw(last_pc, &instr);
+			break;
+		case Opcode::LUI:
+			exec_lui(last_pc, &instr);
+			break;
+		case Opcode::LHU:
+			exec_lhu(last_pc, &instr);
+			break;
+		case Opcode::LH:
+			exec_lh(last_pc, &instr);
+			break;
+		case Opcode::LBU:
+			exec_lbu(last_pc, &instr);
+			break;
+		case Opcode::LB:
+			exec_lb(last_pc, &instr);
+			break;
+		case Opcode::JALR:
+			exec_jalr(last_pc, &instr);
+			break;
+		case Opcode::JAL:
+			exec_jal(last_pc, &instr);
+			break;
+		case Opcode::FENCE:
+			exec_fence(last_pc, &instr);
+			break;
+		case Opcode::BNE:
+			exec_bne(last_pc, &instr);
+			break;
+		case Opcode::BLTU:
+			exec_bltu(last_pc, &instr);
+			break;
+		case Opcode::BLT:
+			exec_blt(last_pc, &instr);
+			break;
+		case Opcode::BGEU:
+			exec_bgeu(last_pc, &instr);
+			break;
+		case Opcode::BGE:
+			exec_bge(last_pc, &instr);
+			break;
+		case Opcode::BEQ:
+			exec_beq(last_pc, &instr);
+			break;
+		case Opcode::AUIPC:
+			exec_auipc(last_pc, &instr);
+			break;
+		case Opcode::ANDI:
+			exec_andi(last_pc, &instr);
+			break;
+		case Opcode::AND:
+			exec_and(last_pc, &instr);
+			break;
+		case Opcode::ADDI:
+			exec_addi(last_pc, &instr);
+			break;
+		case Opcode::ADD:
+			exec_add(last_pc, &instr);
+			break;
+
+		////
+		// Stuff below is not auto-generated from LibRISCV.
+		////
+
 		case Opcode::UNDEF:
 			if (trace)
 				std::cout << "[ISS] WARNING: unknown instruction '" << std::to_string(instr.data()) << "' at address '"
 				          << std::to_string(last_pc) << "'" << std::endl;
 			raise_trap(EXC_ILLEGAL_INSTR, instr.data());
 			break;
-		case Opcode::ADD:
-			exec_add(last_pc, &instr);
-			break;
-		case Opcode::ADDI:
-			exec_addi(last_pc, &instr);
-			break;
-		case Opcode::LW:
-			exec_lw(last_pc, &instr);
-			break;
-		case Opcode::SW:
-			exec_sw(last_pc, &instr);
-			break;
-		case Opcode::JAL:
-			exec_jal(last_pc, &instr);
-			break;
-		case Opcode::JALR:
-			exec_jalr(last_pc, &instr);
-			break;
-		/* case Opcode::BLT: */
-		/* 	exec_blt(last_pc, &instr); */
-		case Opcode::LUI:
-			exec_lui(last_pc, &instr);
-			break;
-		case Opcode::AUIPC:
-			exec_auipc(last_pc, &instr);
-			break;
-
-		////
-		// Stuff below is not auto-generated from LibRISCV.
-		////
 
 		case Opcode::ECALL: {
 			if (sys) {
