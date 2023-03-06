@@ -3,6 +3,9 @@
 
 #include <stdint.h>
 
+// riscv-vp specific function.
+void init_core(struct rv32::ISS *);
+
 extern "C" {
 
 /* Register file */

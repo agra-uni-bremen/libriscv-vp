@@ -115,6 +115,9 @@ ISS::ISS(uint32_t hart_id, bool use_E_base_isa) : systemc_name("Core-" + std::to
 	instr_cycles[Opcode::REM] = mul_div_cycles;
 	instr_cycles[Opcode::REMU] = mul_div_cycles;
 	op = Opcode::UNDEF;
+
+	// Initialize libriscv interface layer.
+	init_core(this);
 }
 
 void ISS::exec_step() {
