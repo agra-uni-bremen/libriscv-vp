@@ -181,38 +181,37 @@ void ISS::exec_step() {
 			raise_trap(EXC_ILLEGAL_INSTR, instr.data());
 			break;
 		case Opcode::ADD:
-			exec_add(last_pc, (void*)&instr);
+			exec_add(last_pc, &instr);
 			break;
 		case Opcode::ADDI:
-			exec_addi(last_pc, (void*)&instr);
+			exec_addi(last_pc, &instr);
 			break;
 		case Opcode::LW:
-			exec_lw(last_pc, (void*)&instr);
+			exec_lw(last_pc, &instr);
 			break;
 		case Opcode::SW:
-			exec_sw(last_pc, (void*)&instr);
+			exec_sw(last_pc, &instr);
 			break;
 		case Opcode::JAL:
-			exec_jal(last_pc, (void*)&instr);
+			exec_jal(last_pc, &instr);
 			break;
 		case Opcode::JALR:
-			exec_jalr(last_pc, (void*)&instr);
+			exec_jalr(last_pc, &instr);
 			break;
 		/* case Opcode::BLT: */
-		/* 	exec_blt(last_pc, (void*)&instr); */
+		/* 	exec_blt(last_pc, &instr); */
 		case Opcode::LUI:
-			exec_lui(last_pc, (void*)&instr);
+			exec_lui(last_pc, &instr);
+			break;
+		case Opcode::AUIPC:
+			exec_auipc(last_pc, &instr);
 			break;
 
 		////
 		// Stuff below is not auto-generated from LibRISCV.
 		////
 
-		case Opcode::AUIPC:
-			exec_auipc(last_pc, (void*)&instr);
-			break;
-
-				case Opcode::ECALL: {
+		case Opcode::ECALL: {
 			if (sys) {
 				sys->execute_syscall(this);
 			} else {
