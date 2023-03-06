@@ -200,9 +200,40 @@ void ISS::exec_step() {
 		case Opcode::LUI:
 			exec_lui(last_pc, (void*)&instr);
 			break;
+
+		////
+		// Stuff below is not auto-generated from LibRISCV.
+		////
+
 		case Opcode::AUIPC:
 			exec_auipc(last_pc, (void*)&instr);
 			break;
+
+				case Opcode::ECALL: {
+			if (sys) {
+				sys->execute_syscall(this);
+			} else {
+				switch (prv) {
+					case MachineMode:
+						raise_trap(EXC_ECALL_M_MODE, last_pc);
+						break;
+					case SupervisorMode:
+						raise_trap(EXC_ECALL_S_MODE, last_pc);
+						break;
+					case UserMode:
+						raise_trap(EXC_ECALL_U_MODE, last_pc);
+						break;
+					default:
+						throw std::runtime_error("unknown privilege level " + std::to_string(prv));
+				}
+			}
+		} break;
+
+		case Opcode::EBREAK: {
+			// TODO: also raise trap and let the SW deal with it?
+			status = CoreExecStatus::HitBreakpoint;
+		} break;
+
 		default:
 			throw std::runtime_error("unknown opcode");
 	}
