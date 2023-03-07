@@ -45,10 +45,34 @@ write_pc(uint32_t newPC)
 // Data Memory
 ////
 
+uint8_t
+load_byte(uint32_t addr)
+{
+	return (uint8_t)core->mem->load_byte(addr);
+}
+
+uint16_t
+load_half(uint32_t addr)
+{
+	return (uint8_t)core->mem->load_half(addr);
+}
+
 uint32_t
 load_word(uint32_t addr)
 {
 	return core->mem->load_word(addr);
+}
+
+void
+store_byte(uint32_t addr, uint8_t value)
+{
+	return core->mem->store_byte(addr, value);
+}
+
+void
+store_half(uint32_t addr, uint16_t value)
+{
+	return core->mem->store_half(addr, value);
 }
 
 void
@@ -107,4 +131,10 @@ uint32_t
 instr_immJ(void *instr)
 {
 	return ((struct Instruction*)instr)->J_imm();
+}
+
+uint32_t
+instr_shamt(void *instr)
+{
+	return ((struct Instruction*)instr)->shamt();
 }
