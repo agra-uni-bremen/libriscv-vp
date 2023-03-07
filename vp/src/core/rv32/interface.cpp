@@ -48,13 +48,13 @@ write_pc(uint32_t newPC)
 uint8_t
 load_byte(uint32_t addr)
 {
-	return (uint8_t)core->mem->load_byte(addr);
+	return core->mem->load_byte(addr);
 }
 
 uint16_t
 load_half(uint32_t addr)
 {
-	return (uint8_t)core->mem->load_half(addr);
+	return core->mem->load_half(addr);
 }
 
 uint32_t
