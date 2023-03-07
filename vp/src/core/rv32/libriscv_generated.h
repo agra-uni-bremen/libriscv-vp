@@ -105,7 +105,7 @@ void exec_lhu(uint32_t instrPC, void * instr)
 void exec_lh(uint32_t instrPC, void * instr)
 {
     write_register(instr_rd(instr),
-                   (uint32_t) (uint32_t) (uint16_t) load_half(read_register(instr_rs1(instr)) + instr_immI(instr)));
+                   (uint32_t) (int32_t) (int16_t) load_half(read_register(instr_rs1(instr)) + instr_immI(instr)));
 }
 void exec_lbu(uint32_t instrPC, void * instr)
 {
@@ -115,7 +115,7 @@ void exec_lbu(uint32_t instrPC, void * instr)
 void exec_lb(uint32_t instrPC, void * instr)
 {
     write_register(instr_rd(instr),
-                   (uint32_t) (int32_t) (uint8_t) load_byte(read_register(instr_rs1(instr)) + instr_immI(instr)));
+                   (uint32_t) (int32_t) (int8_t) load_byte(read_register(instr_rs1(instr)) + instr_immI(instr)));
 }
 void exec_jalr(uint32_t instrPC, void * instr)
 {
