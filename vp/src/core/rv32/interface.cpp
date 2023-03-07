@@ -16,13 +16,13 @@ void init_core(struct rv32::ISS *_core) {
 uint32_t
 read_register(unsigned idx)
 {
-	return core->read_register(idx);
+	return core->regs[idx];
 }
 
 void
 write_register(unsigned idx, uint32_t value)
 {
-	return core->write_register(idx, value);
+	core->regs[idx] = value;
 }
 
 ////
