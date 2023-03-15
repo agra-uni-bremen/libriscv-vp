@@ -121,12 +121,20 @@ inline void exec_jalr(uint32_t instrPC, void * instr)
 {
     uint32_t link = read_next_pc();
     write_pc(read_register(instr_rs1(instr)) + instr_immI(instr) & 0xfffffffe);
+    if ((read_register(instr_rs1(instr)) + instr_immI(instr) & 0xfffffffe & 0x3) >= 0x1)
+    {
+        abort();
+    }
     write_register(instr_rd(instr), link);
 }
 inline void exec_jal(uint32_t instrPC, void * instr)
 {
     uint32_t link = read_next_pc();
     write_pc(instrPC + instr_immJ(instr));
+    if ((instrPC + instr_immJ(instr) & 0x3) >= 0x1)
+    {
+        abort();
+    }
     write_register(instr_rd(instr), link);
 }
 inline void exec_fence(uint32_t instrPC, void * instr)
@@ -136,49 +144,62 @@ inline void exec_bne(uint32_t instrPC, void * instr)
 {
     if (read_register(instr_rs1(instr)) == read_register(instr_rs2(instr)))
     {
-        return;
     }
-    write_pc(instrPC + instr_immB(instr));
+    else
+    {
+        write_pc(instrPC + instr_immB(instr));
+    }
 }
 inline void exec_bltu(uint32_t instrPC, void * instr)
 {
-    if (!(read_register(instr_rs1(instr)) < read_register(instr_rs2(instr))))
+    if (read_register(instr_rs1(instr)) < read_register(instr_rs2(instr)))
     {
-        return;
+        write_pc(instrPC + instr_immB(instr));
     }
-    write_pc(instrPC + instr_immB(instr));
+    if (read_register(instr_rs1(instr)) < read_register(instr_rs2(instr)) & (instrPC + instr_immB(instr) & 0x3) >= 0x1)
+    {
+        abort();
+    }
 }
 inline void exec_blt(uint32_t instrPC, void * instr)
 {
-    if (!((int32_t) read_register(instr_rs1(instr)) < (int32_t) read_register(instr_rs2(instr))))
+    if ((int32_t) read_register(instr_rs1(instr)) < (int32_t) read_register(instr_rs2(instr)))
     {
-        return;
+        write_pc(instrPC + instr_immB(instr));
     }
-    write_pc(instrPC + instr_immB(instr));
+    if ((int32_t) read_register(instr_rs1(instr)) < (int32_t) read_register(instr_rs2(instr)) & (instrPC + instr_immB(instr) & 0x3) >= 0x1)
+    {
+        abort();
+    }
 }
 inline void exec_bgeu(uint32_t instrPC, void * instr)
 {
-    if (!(read_register(instr_rs1(instr)) >= read_register(instr_rs2(instr))))
+    if (read_register(instr_rs1(instr)) >= read_register(instr_rs2(instr)))
     {
-        return;
+        write_pc(instrPC + instr_immB(instr));
     }
-    write_pc(instrPC + instr_immB(instr));
+    if (read_register(instr_rs1(instr)) >= read_register(instr_rs2(instr)) & (instrPC + instr_immB(instr) & 0x3) >= 0x1)
+    {
+        abort();
+    }
 }
 inline void exec_bge(uint32_t instrPC, void * instr)
 {
-    if (!((int32_t) read_register(instr_rs1(instr)) >= (int32_t) read_register(instr_rs2(instr))))
+    if ((int32_t) read_register(instr_rs1(instr)) >= (int32_t) read_register(instr_rs2(instr)))
     {
-        return;
+        write_pc(instrPC + instr_immB(instr));
     }
-    write_pc(instrPC + instr_immB(instr));
+    if ((int32_t) read_register(instr_rs1(instr)) >= (int32_t) read_register(instr_rs2(instr)) & (instrPC + instr_immB(instr) & 0x3) >= 0x1)
+    {
+        abort();
+    }
 }
 inline void exec_beq(uint32_t instrPC, void * instr)
 {
-    if (!(read_register(instr_rs1(instr)) == read_register(instr_rs2(instr))))
+    if (read_register(instr_rs1(instr)) == read_register(instr_rs2(instr)))
     {
-        return;
+        write_pc(instrPC + instr_immB(instr));
     }
-    write_pc(instrPC + instr_immB(instr));
 }
 inline void exec_auipc(uint32_t instrPC, void * instr)
 {
