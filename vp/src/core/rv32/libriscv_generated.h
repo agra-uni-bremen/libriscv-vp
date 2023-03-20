@@ -155,10 +155,10 @@ static inline void exec_bltu(uint32_t instrPC, void * instr)
     if (read_register(instr_rs1(instr)) < read_register(instr_rs2(instr)))
     {
         write_pc(instrPC + instr_immB(instr));
-    }
-    if (read_register(instr_rs1(instr)) < read_register(instr_rs2(instr)) & (instrPC + instr_immB(instr) & 0x3) >= 0x1)
-    {
-        abort();
+        if ((instrPC + instr_immB(instr) & 0x3) >= 0x1)
+        {
+            abort();
+        }
     }
 }
 static inline void exec_blt(uint32_t instrPC, void * instr)
@@ -166,10 +166,10 @@ static inline void exec_blt(uint32_t instrPC, void * instr)
     if ((int32_t) read_register(instr_rs1(instr)) < (int32_t) read_register(instr_rs2(instr)))
     {
         write_pc(instrPC + instr_immB(instr));
-    }
-    if ((int32_t) read_register(instr_rs1(instr)) < (int32_t) read_register(instr_rs2(instr)) & (instrPC + instr_immB(instr) & 0x3) >= 0x1)
-    {
-        abort();
+        if ((instrPC + instr_immB(instr) & 0x3) >= 0x1)
+        {
+            abort();
+        }
     }
 }
 static inline void exec_bgeu(uint32_t instrPC, void * instr)
@@ -177,10 +177,10 @@ static inline void exec_bgeu(uint32_t instrPC, void * instr)
     if (read_register(instr_rs1(instr)) >= read_register(instr_rs2(instr)))
     {
         write_pc(instrPC + instr_immB(instr));
-    }
-    if (read_register(instr_rs1(instr)) >= read_register(instr_rs2(instr)) & (instrPC + instr_immB(instr) & 0x3) >= 0x1)
-    {
-        abort();
+        if ((instrPC + instr_immB(instr) & 0x3) >= 0x1)
+        {
+            abort();
+        }
     }
 }
 static inline void exec_bge(uint32_t instrPC, void * instr)
@@ -188,10 +188,10 @@ static inline void exec_bge(uint32_t instrPC, void * instr)
     if ((int32_t) read_register(instr_rs1(instr)) >= (int32_t) read_register(instr_rs2(instr)))
     {
         write_pc(instrPC + instr_immB(instr));
-    }
-    if ((int32_t) read_register(instr_rs1(instr)) >= (int32_t) read_register(instr_rs2(instr)) & (instrPC + instr_immB(instr) & 0x3) >= 0x1)
-    {
-        abort();
+        if ((instrPC + instr_immB(instr) & 0x3) >= 0x1)
+        {
+            abort();
+        }
     }
 }
 static inline void exec_beq(uint32_t instrPC, void * instr)
