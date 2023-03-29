@@ -3,26 +3,20 @@
 #include "iss.h"
 #include "interface.h"
 
-static struct rv32::ISS *core;
-
-void init_core(struct rv32::ISS *_core) {
-	core = _core;
-}
-
 ////
 // Register File
 ////
 
 uint32_t
-read_register(unsigned idx)
+read_register(void *core, unsigned idx)
 {
-	return core->regs[idx];
+	return ((struct rv32::ISS*)core)->regs[idx];
 }
 
 void
-write_register(unsigned idx, uint32_t value)
+write_register(void *core, unsigned idx, uint32_t value)
 {
-	core->regs[idx] = value;
+	((struct rv32::ISS*)core)->regs[idx] = value;
 }
 
 ////
@@ -30,15 +24,15 @@ write_register(unsigned idx, uint32_t value)
 ////
 
 uint32_t
-read_next_pc(void)
+read_next_pc(void *core)
 {
-	return core->pc;
+	return ((struct rv32::ISS*)core)->pc;
 }
 
 void
-write_pc(uint32_t newPC)
+write_pc(void *core, uint32_t newPC)
 {
-	core->pc = newPC;
+	((struct rv32::ISS*)core)->pc = newPC;
 }
 
 ////
@@ -46,39 +40,39 @@ write_pc(uint32_t newPC)
 ////
 
 uint8_t
-load_byte(uint32_t addr)
+load_byte(void *core, uint32_t addr)
 {
-	return core->mem->load_byte(addr);
+	return ((struct rv32::ISS*)core)->mem->load_byte(addr);
 }
 
 uint16_t
-load_half(uint32_t addr)
+load_half(void *core, uint32_t addr)
 {
-	return core->mem->load_half(addr);
+	return ((struct rv32::ISS*)core)->mem->load_half(addr);
 }
 
 uint32_t
-load_word(uint32_t addr)
+load_word(void *core, uint32_t addr)
 {
-	return core->mem->load_word(addr);
+	return ((struct rv32::ISS*)core)->mem->load_word(addr);
 }
 
 void
-store_byte(uint32_t addr, uint8_t value)
+store_byte(void *core, uint32_t addr, uint8_t value)
 {
-	return core->mem->store_byte(addr, value);
+	return ((struct rv32::ISS*)core)->mem->store_byte(addr, value);
 }
 
 void
-store_half(uint32_t addr, uint16_t value)
+store_half(void *core, uint32_t addr, uint16_t value)
 {
-	return core->mem->store_half(addr, value);
+	return ((struct rv32::ISS*)core)->mem->store_half(addr, value);
 }
 
 void
-store_word(uint32_t addr, uint32_t value)
+store_word(void *core, uint32_t addr, uint32_t value)
 {
-	return core->mem->store_word(addr, value);
+	return ((struct rv32::ISS*)core)->mem->store_word(addr, value);
 }
 
 ////
